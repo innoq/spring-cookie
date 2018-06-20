@@ -5,8 +5,10 @@
 
 # These files are text and should be normalized
 # (Convert crlf => lf)
+*.java          text
 *.md            text
 *.properties    text
+*.yml           text
 *.xml           text
 
 
