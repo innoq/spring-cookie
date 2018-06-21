@@ -15,17 +15,16 @@
  */
 package com.innoq.spring.cookie.flash;
 
+import com.innoq.spring.cookie.flash.codec.jackson.JacksonFlashMapListCodec;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.FlashMap;
 
 import javax.servlet.http.Cookie;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +32,8 @@ import static org.assertj.core.api.Assertions.entry;
 
 class CookieFlashMapManagerTest {
 
-    CookieFlashMapManager sut = new CookieFlashMapManager();
+    CookieFlashMapManager sut = new CookieFlashMapManager(
+        JacksonFlashMapListCodec.create());
 
     @Test
     void retrieveFlashMaps_withNoCookiePresent_returnsNull() {
@@ -46,22 +46,7 @@ class CookieFlashMapManagerTest {
 
     @Test
     void retrieveFlashMaps_withValidCookie_returnsFlashMaps() {
-        String json =
-            "[{" +
-                "\"attributes\":{" +
-                    "\"foo\":null," +
-                    "\"bar\":4711," +
-                    "\"baz\":\"lorem ipsum\"" +
-                "}," +
-                "\"expirationTime\":4711," +
-                "\"targetRequestParams\":{" +
-                    "\"foo\":[]," +
-                    "\"bar\":[\"foo\"]," +
-                    "\"baz\":[\"lorem\",\"ipsum\"]" +
-                "}," +
-                "\"targetRequestPath\":\"/foo\"" +
-            "}]";
-        String cookieValue = Base64.getEncoder().encodeToString(json.getBytes(UTF_8));
+        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJmb28iOm51bGwsImJhciI6NDcxMSwiYmF6IjoibG9yZW0gaXBzdW0ifSwiZXhwaXJhdGlvblRpbWUiOjQ3MTEsInRhcmdldFJlcXVlc3RQYXJhbXMiOnsiZm9vIjpbXSwiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1dCg==";
 
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
         request.setCookies(new Cookie("flash", cookieValue));
@@ -97,14 +82,7 @@ class CookieFlashMapManagerTest {
             .hasFieldOrPropertyWithValue("httpOnly", true);
 
         String cookieValue = response.getCookie("flash").getValue();
-        String json = new String(Base64.getDecoder().decode(cookieValue), UTF_8);
-        assertThat(json).isEqualTo(
-            "[{" +
-                "\"attributes\":{}," +
-                "\"expirationTime\":-1," +
-                "\"targetRequestParams\":{}," +
-                "\"targetRequestPath\":null" +
-            "}]");
+        assertThat(cookieValue).isEqualTo("W3siYXR0cmlidXRlcyI6e30sImV4cGlyYXRpb25UaW1lIjotMSwidGFyZ2V0UmVxdWVzdFBhcmFtcyI6e30sInRhcmdldFJlcXVlc3RQYXRoIjpudWxsfV0=");
     }
 
     @Test

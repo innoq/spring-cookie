@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.innoq.spring.cookie.flash;
+package com.innoq.spring.cookie.flash.codec.jackson;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.innoq.spring.cookie.flash.codec.jackson.FlashMapDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.FlashMap;
 

@@ -15,78 +15,58 @@
  */
 package com.innoq.spring.cookie.flash;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.support.AbstractFlashMapManager;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
+
+import static org.springframework.web.util.WebUtils.getCookie;
 
 public final class CookieFlashMapManager extends AbstractFlashMapManager {
 
     private static final String DEFAULT_COOKIE_NAME = "flash";
 
-    private final ObjectMapper objectMapper = new ObjectMapper()
-        .registerModule(new SimpleModule()
-            .addSerializer(FlashMap.class, new FlashMapSerializer())
-            .addDeserializer(FlashMap.class, new FlashMapDeserializer()));
+    private final FlashMapListCodec codec;
     private final String cookieName;
 
-    public CookieFlashMapManager() {
-        this(DEFAULT_COOKIE_NAME);
+    public CookieFlashMapManager(FlashMapListCodec codec) {
+        this(codec, DEFAULT_COOKIE_NAME);
     }
 
-    public CookieFlashMapManager(String cookieName) {
-        // TODO: assert not null/empty
+    public CookieFlashMapManager(FlashMapListCodec codec, String cookieName) {
+        Assert.notNull(codec, "FlashMapListCodec must not be null");
+        Assert.hasText(cookieName, "Cookie name must not be null or empty");
+        this.codec = codec;
         this.cookieName = cookieName;
     }
 
     @Override
     protected List<FlashMap> retrieveFlashMaps(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, cookieName);
+        final Cookie cookie = getCookie(request, cookieName);
         if (cookie == null) {
             return null;
         }
 
-        String value = cookie.getValue();
-        byte[] payload = Base64.getDecoder().decode(value);
-
-        try {
-            return this.objectMapper.readValue(payload, new TypeReference<List<FlashMap>>() {});
-        } catch (IOException e) {
-            // TODO
-            e.printStackTrace();
-            return null;
-        }
+        final String value = cookie.getValue();
+        return codec.decode(value);
     }
 
     @Override
-    protected void updateFlashMaps(List<FlashMap> flashMaps, HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie(cookieName, null);
+    protected void updateFlashMaps(List<FlashMap> flashMaps,
+            HttpServletRequest request, HttpServletResponse response) {
+        final Cookie cookie = new Cookie(cookieName, null);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
 
         if (flashMaps.isEmpty()) {
             cookie.setMaxAge(0);
         } else {
-            try {
-                byte[] payload = this.objectMapper.writeValueAsBytes(flashMaps);
-                String value = Base64.getEncoder().encodeToString(payload);
-
-                // TODO: max-age?
-                cookie.setValue(value);
-            } catch (JsonProcessingException e) {
-                // TODO
-                e.printStackTrace();
-            }
+            final String value = codec.encode(flashMaps);
+            cookie.setValue(value);
         }
         response.addCookie(cookie);
     }
