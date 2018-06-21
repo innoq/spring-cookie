@@ -15,6 +15,7 @@
  */
 package com.innoq.spring.cookie.flash;
 
+import com.innoq.spring.cookie.security.CookieValueSigner;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.support.AbstractFlashMapManager;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.security.MessageDigest.isEqual;
 import static org.springframework.web.util.WebUtils.getCookie;
 
 public final class CookieFlashMapManager extends AbstractFlashMapManager {
@@ -31,16 +34,21 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
     private static final String DEFAULT_COOKIE_NAME = "flash";
 
     private final FlashMapListCodec codec;
+    private final CookieValueSigner signer;
     private final String cookieName;
 
-    public CookieFlashMapManager(FlashMapListCodec codec) {
-        this(codec, DEFAULT_COOKIE_NAME);
+    public CookieFlashMapManager(FlashMapListCodec codec,
+            CookieValueSigner signer) {
+        this(codec, signer, DEFAULT_COOKIE_NAME);
     }
 
-    public CookieFlashMapManager(FlashMapListCodec codec, String cookieName) {
+    public CookieFlashMapManager(FlashMapListCodec codec,
+            CookieValueSigner signer, String cookieName) {
         Assert.notNull(codec, "FlashMapListCodec must not be null");
+        Assert.notNull(signer, "CookieValueSigner must not be null");
         Assert.hasText(cookieName, "Cookie name must not be null or empty");
         this.codec = codec;
+        this.signer = signer;
         this.cookieName = cookieName;
     }
 
@@ -52,7 +60,7 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
         }
 
         final String value = cookie.getValue();
-        return codec.decode(value);
+        return decode(value);
     }
 
     @Override
@@ -65,7 +73,7 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
         if (flashMaps.isEmpty()) {
             cookie.setMaxAge(0);
         } else {
-            final String value = codec.encode(flashMaps);
+            final String value = encode(flashMaps);
             cookie.setValue(value);
         }
         response.addCookie(cookie);
@@ -74,5 +82,39 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
     @Override
     protected Object getFlashMapsMutex(HttpServletRequest request) {
         return null;
+    }
+
+    private List<FlashMap> decode(String value) {
+        final String[] signatureAndPayload = reverse(value).split("--", 2);
+        if (signatureAndPayload.length != 2) {
+            // TODO logging
+            return null;
+        }
+
+        final String signature = reverse(signatureAndPayload[0]);
+        final String payload = reverse(signatureAndPayload[1]);
+
+        if (!isVerified(payload, signature)) {
+            // TODO logging
+            return null;
+        }
+
+        return codec.decode(payload);
+    }
+
+
+    private String encode(List<FlashMap> flashMaps) {
+        final String payload = codec.encode(flashMaps);
+        final String signature = signer.sign(payload);
+        return payload + "--" + signature;
+    }
+
+    private boolean isVerified(String payload, String digest) {
+        final String signature = signer.sign(payload);
+        return isEqual(digest.getBytes(UTF_8), signature.getBytes(UTF_8));
+    }
+
+    private static String reverse(String s) {
+        return new StringBuilder(s).reverse().toString();
     }
 }

@@ -16,6 +16,7 @@
 package com.innoq.spring.cookie.flash;
 
 import com.innoq.spring.cookie.flash.codec.jackson.JacksonFlashMapListCodec;
+import com.innoq.spring.cookie.security.CookieValueSigner;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -33,7 +34,7 @@ import static org.assertj.core.api.Assertions.entry;
 class CookieFlashMapManagerTest {
 
     CookieFlashMapManager sut = new CookieFlashMapManager(
-        JacksonFlashMapListCodec.create());
+        JacksonFlashMapListCodec.create(), CookieValueSigner.hmacSha1("abc"));
 
     @Test
     void retrieveFlashMaps_withNoCookiePresent_returnsNull() {
@@ -46,7 +47,7 @@ class CookieFlashMapManagerTest {
 
     @Test
     void retrieveFlashMaps_withValidCookie_returnsFlashMaps() {
-        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJmb28iOm51bGwsImJhciI6NDcxMSwiYmF6IjoibG9yZW0gaXBzdW0ifSwiZXhwaXJhdGlvblRpbWUiOjQ3MTEsInRhcmdldFJlcXVlc3RQYXJhbXMiOnsiZm9vIjpbXSwiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1dCg==";
+        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJmb28iOm51bGwsImJhciI6NDcxMSwiYmF6IjoibG9yZW0gaXBzdW0ifSwiZXhwaXJhdGlvblRpbWUiOjQ3MTEsInRhcmdldFJlcXVlc3RQYXJhbXMiOnsiZm9vIjpbXSwiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1dCg==--aa17ee8faf0bbe77a0949de6d5c593bd1e39718c";
 
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
         request.setCookies(new Cookie("flash", cookieValue));
@@ -82,7 +83,7 @@ class CookieFlashMapManagerTest {
             .hasFieldOrPropertyWithValue("httpOnly", true);
 
         String cookieValue = response.getCookie("flash").getValue();
-        assertThat(cookieValue).isEqualTo("W3siYXR0cmlidXRlcyI6e30sImV4cGlyYXRpb25UaW1lIjotMSwidGFyZ2V0UmVxdWVzdFBhcmFtcyI6e30sInRhcmdldFJlcXVlc3RQYXRoIjpudWxsfV0=");
+        assertThat(cookieValue).isEqualTo("W3siYXR0cmlidXRlcyI6e30sImV4cGlyYXRpb25UaW1lIjotMSwidGFyZ2V0UmVxdWVzdFBhcmFtcyI6e30sInRhcmdldFJlcXVlc3RQYXRoIjpudWxsfV0=--daa79b20816b076ceb9f628bef9a82792fe9b5fa");
     }
 
     @Test
