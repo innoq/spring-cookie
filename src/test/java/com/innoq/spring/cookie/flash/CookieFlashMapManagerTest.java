@@ -16,6 +16,7 @@
 package com.innoq.spring.cookie.flash;
 
 import com.innoq.spring.cookie.flash.codec.jackson.JacksonFlashMapListCodec;
+import com.innoq.spring.cookie.flash.verification.CookieVerificationFailureHandler;
 import com.innoq.spring.cookie.security.CookieValueSigner;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -30,6 +31,9 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class CookieFlashMapManagerTest {
 
@@ -63,6 +67,43 @@ class CookieFlashMapManagerTest {
         assertThat(flashMap.getTargetRequestParams()).containsOnly(
             entry("bar", asList("foo")), entry("baz", asList("lorem", "ipsum")));
         assertThat(flashMap.getTargetRequestPath()).isEqualTo("/foo");
+    }
+
+    @Test
+    void retrieveFlashMaps_withInvalidCookieValue_callsGivenVerificationFailureHandlerAndUsesItsReturnValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        request.setCookies(new Cookie("flash", "ABCDEF"));
+
+        CookieVerificationFailureHandler verificationFailureHandler =
+            mock(CookieVerificationFailureHandler.class);
+        when(verificationFailureHandler.onInvalidValue("ABCDEF")).thenReturn(null);
+
+        sut.setVerificationFailureHandler(verificationFailureHandler);
+
+        List<FlashMap> flashMaps = sut.retrieveFlashMaps(request);
+
+        assertThat(flashMaps).isNull();
+        verify(verificationFailureHandler).onInvalidValue("ABCDEF");
+    }
+
+    @Test
+    void retrieveFlashMaps_withInvalidCookieValueSignatur_callsGivenVerificationFailureHandlerAndUsesItsReturnValue() {
+        String cookieValue = "abcd--efgh";
+
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        request.setCookies(new Cookie("flash", cookieValue));
+
+        CookieVerificationFailureHandler verificationFailureHandler =
+            mock(CookieVerificationFailureHandler.class);
+        when(verificationFailureHandler.onInvalidSignature("abcd", "efgh"))
+            .thenReturn(null);
+
+        sut.setVerificationFailureHandler(verificationFailureHandler);
+
+        List<FlashMap> flashMaps = sut.retrieveFlashMaps(request);
+
+        assertThat(flashMaps).isNull();
+        verify(verificationFailureHandler).onInvalidSignature("abcd", "efgh");
     }
 
     @Test
