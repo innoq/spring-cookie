@@ -15,6 +15,7 @@
  */
 package com.innoq.spring.cookie.flash;
 
+import com.innoq.spring.cookie.flash.codec.FlashMapListCodec;
 import com.innoq.spring.cookie.security.CookieValueSigner;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;

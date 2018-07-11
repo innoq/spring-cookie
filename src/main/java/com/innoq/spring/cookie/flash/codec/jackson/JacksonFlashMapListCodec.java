@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.innoq.spring.cookie.flash.FlashMapListCodec;
+import com.innoq.spring.cookie.flash.codec.FlashMapListCodec;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;
 
