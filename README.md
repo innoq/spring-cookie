@@ -1,7 +1,7 @@
 # Spring Cookie
 *- Come to the dark side, we have cookies*
 
-[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Build Status](https://travis-ci.org/innoq/spring-cookie.svg?branch=master)](https://travis-ci.org/innoq/spring-cookie)
+[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Build Status](https://travis-ci.org/innoq/spring-cookie.svg?branch=master)](https://travis-ci.org/innoq/spring-cookie) [![codecov](https://codecov.io/gh/innoq/spring-cookie/branch/master/graph/badge.svg)](https://codecov.io/gh/innoq/spring-cookie)
 
 Some components for
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)
