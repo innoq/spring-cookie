@@ -23,7 +23,7 @@
 
   <groupId>com.innoq</groupId>
   <artifactId>spring-cookie</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 
   <name>Spring Cookie</name>
   <description>Some components for Spring MVC that use cookies instead of a HTTP session</description>

@@ -1,7 +1,7 @@
 # Spring Cookie
 *- Come to the dark side, we have cookies*
 
-[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Build Status](https://travis-ci.org/innoq/spring-cookie.svg?branch=master)](https://travis-ci.org/innoq/spring-cookie) [![codecov](https://codecov.io/gh/innoq/spring-cookie/branch/master/graph/badge.svg)](https://codecov.io/gh/innoq/spring-cookie)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie) [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Build Status](https://travis-ci.org/innoq/spring-cookie.svg?branch=master)](https://travis-ci.org/innoq/spring-cookie) [![codecov](https://codecov.io/gh/innoq/spring-cookie/branch/master/graph/badge.svg)](https://codecov.io/gh/innoq/spring-cookie)
 
 Some components for
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)
@@ -21,19 +21,8 @@ Download the jar through Maven:
 <dependency>
   <groupId>com.innoq</groupId>
   <artifactId>spring-cookie</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 </dependency>
-```
-
-Because there is no stable version in maven central right now you need to
-configure Sonatype's OSS Nexus as snapshot repository.
-
-```xml
-<repository>
-  <id>ossrh</id>
-  <name>Sonatype OSS Snapshot Repository</name>
-  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-</repository>
 ```
 
 
