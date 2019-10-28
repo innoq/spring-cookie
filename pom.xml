@@ -186,7 +186,7 @@
                   <version>${java.version}</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
-                  <version>3.5</version>
+                  <version>3.6</version>
                 </requireMavenVersion>
                 <requireNoRepositories/>
                 <requirePluginVersions/>
