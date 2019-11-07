@@ -10,7 +10,19 @@ that use cookies instead of a HTTP session.
 
 ## Features
 
-* `com.innoq.spring.cookie.flash.CookieFLashMapManager` for `FlashMap` support
+- [CookieFlashMapManager](./src/main/java/com/innoq/spring/cookie/flash/CookieFlashMapManager.java)
+
+  A cookie based [FlashMapManager](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/FlashMapManager.html)
+  implementation that can be used with different
+  [serialization](./src/main/java/com/innoq/spring/cookie/flash/FlashMapListCodec.java)
+  and [signing](./src/main/java/com/innoq/spring/cookie/security/CookieValueSigner.java)
+  implementations.
+
+  By default a [Jackson](https://github.com/FasterXML/jackson) based
+  [JSON implementation](./src/main/java/com/innoq/spring/cookie/flash/codec/jackson/JacksonFlashMapListCodec.java)
+  for serialization and
+  [HMAC implementation](./src/main/java/com/innoq/spring/cookie/security/HmacCookieValueSigner.java)
+  for signing is provided.
 
 
 ## Quick Start
