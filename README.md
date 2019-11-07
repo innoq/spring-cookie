@@ -38,6 +38,11 @@ Download the jar through Maven:
 ```
 
 
+## Release History
+
+See [CHANGELOG.md](./CHANGELOG.md)
+
+
 ## Code of Conduct
 
 [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this
