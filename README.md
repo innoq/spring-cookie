@@ -26,6 +26,12 @@ Download the jar through Maven:
 ```
 
 
+## Code of Conduct
+
+[Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this
+project you agree to abide by its terms.
+
+
 ## License
 
 Spring Cookie is Open Source software released under the
