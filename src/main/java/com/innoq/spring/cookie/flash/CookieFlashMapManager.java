@@ -15,6 +15,8 @@
  */
 package com.innoq.spring.cookie.flash;
 
+import com.innoq.spring.cookie.flash.codec.FlashMapListCodec;
+import com.innoq.spring.cookie.flash.verification.CookieVerificationFailureHandler;
 import com.innoq.spring.cookie.security.CookieValueSigner;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;
@@ -36,6 +38,8 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
     private final FlashMapListCodec codec;
     private final CookieValueSigner signer;
     private final String cookieName;
+    private CookieVerificationFailureHandler verificationFailureHandler =
+        CookieVerificationFailureHandler.ignoreFailures();
 
     public CookieFlashMapManager(FlashMapListCodec codec,
             CookieValueSigner signer) {
@@ -50,6 +54,12 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
         this.codec = codec;
         this.signer = signer;
         this.cookieName = cookieName;
+    }
+
+    public void setVerificationFailureHandler(
+            CookieVerificationFailureHandler verificationFailureHandler) {
+        Assert.notNull(verificationFailureHandler, "CookieVerificationFailureHandler must not be null");
+        this.verificationFailureHandler = verificationFailureHandler;
     }
 
     @Override
@@ -87,16 +97,14 @@ public final class CookieFlashMapManager extends AbstractFlashMapManager {
     private List<FlashMap> decode(String value) {
         final String[] signatureAndPayload = reverse(value).split("--", 2);
         if (signatureAndPayload.length != 2) {
-            // TODO logging
-            return null;
+            return verificationFailureHandler.onInvalidValue(value);
         }
 
         final String signature = reverse(signatureAndPayload[0]);
         final String payload = reverse(signatureAndPayload[1]);
 
         if (!isVerified(payload, signature)) {
-            // TODO logging
-            return null;
+            return verificationFailureHandler.onInvalidSignature(payload, signature);
         }
 
         return codec.decode(payload);

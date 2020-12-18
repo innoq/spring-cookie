@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.innoq.spring.cookie.flash;
+package com.innoq.spring.cookie.flash.verification;
 
 import org.springframework.web.servlet.FlashMap;
 
 import java.util.List;
 
-public interface FlashMapListCodec {
+enum IgnoreCookieVerificationFailureHandler
+        implements CookieVerificationFailureHandler {
+    INSTANCE;
 
-    List<FlashMap> decode(String encodedFlashMaps);
+    @Override
+    public List<FlashMap> onInvalidValue(String value) {
+        return null;
+    }
 
-    String encode(List<FlashMap> flashMaps);
+    @Override
+    public List<FlashMap> onInvalidSignature(String payload, String signature) {
+        return null;
+    }
 }
