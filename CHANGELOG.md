@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 🔨 Dependency Upgrades
+- Use Spring Boot 2.2.0.RELEASE as dependency baseline ([c0726a6](https://github.com/innoq/spring-cookie/commit/c0726a6d184d0bb0fdef4b9e1dc96b152763a5bc))
+
 
 ## [0.1.0] - 2019-11-07
 
-### Added
+This is the initial release.
+
+### ⭐️ New Features
 - Codec abstraction ([bd3563f](https://github.com/innoq/spring-cookie/commit/bd3563f30489b1b791d93098e0a2abdc6275c416))
 - CookieFlashMapManager ([e5e13d4](https://github.com/innoq/spring-cookie/commit/e5e13d4a1bcfec4883d49a5ef30f13c59e0e7f61))
 - FlashMapDeserializer ([e409703](https://github.com/innoq/spring-cookie/commit/e409703f7bcb3ceb9a7c7c70b5f26f276d3305a4))
