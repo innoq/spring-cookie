@@ -233,6 +233,7 @@
           <configuration>
             <excludes>
               <exclude>.editorconfig</exclude>
+              <exclude>.envrc</exclude>
               <exclude>.gitattributes</exclude>
               <exclude>.mvn/**</exclude>
               <exclude>LICENSE*</exclude>
