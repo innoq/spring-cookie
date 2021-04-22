@@ -4,6 +4,9 @@
 # direnv
 .envrc
 
+# SDKMAN
+.sdkmanrc
+
 # Maven
 target/
 

@@ -236,6 +236,7 @@
               <exclude>.envrc</exclude>
               <exclude>.gitattributes</exclude>
               <exclude>.mvn/**</exclude>
+              <exclude>.sdkmanrc</exclude>
               <exclude>LICENSE*</exclude>
               <exclude>bin/**</exclude>
               <exclude>mvnw*</exclude>
