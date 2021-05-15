@@ -229,20 +229,20 @@
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
-          <version>3.0</version>
+          <version>4.1</version>
           <configuration>
-            <excludes>
-              <exclude>.editorconfig</exclude>
-              <exclude>.envrc</exclude>
-              <exclude>.gitattributes</exclude>
-              <exclude>.mvn/**</exclude>
-              <exclude>.sdkmanrc</exclude>
-              <exclude>LICENSE*</exclude>
-              <exclude>bin/**</exclude>
-              <exclude>mvnw*</exclude>
-            </excludes>
-            <failIfUnknown>true</failIfUnknown>
-            <header>LICENSE_HEADER</header>
+            <licenseSets>
+              <licenseSet>
+                <excludes>
+                  <exclude>.editorconfig</exclude>
+                  <exclude>.envrc</exclude>
+                  <exclude>.mvn/**</exclude>
+                  <exclude>.sdkmanrc</exclude>
+                  <exclude>bin/**</exclude>
+                </excludes>
+                <header>LICENSE_HEADER</header>
+              </licenseSet>
+            </licenseSets>
           </configuration>
         </plugin>
         <plugin>
