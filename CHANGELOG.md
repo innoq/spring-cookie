@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### 🔨 Dependency Upgrades
+- Use Spring Boot 2.3.12.RELEASE as dependency baseline ([3e8a21f](https://github.com/innoq/spring-cookie/commit/3e8a21f40d3e0b2597c7be25f9a433c568577b6d))
 - Use Spring Boot 2.2.0.RELEASE as dependency baseline ([c0726a6](https://github.com/innoq/spring-cookie/commit/c0726a6d184d0bb0fdef4b9e1dc96b152763a5bc))
-
 
 ## [0.1.0] - 2019-11-07
 
