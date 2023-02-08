@@ -193,7 +193,7 @@
                   <version>${java.version}</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
-                  <version>3.8</version>
+                  <version>[3.9,3.10)</version>
                 </requireMavenVersion>
                 <requireNoRepositories/>
                 <requirePluginVersions/>
