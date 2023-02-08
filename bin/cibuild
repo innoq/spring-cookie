@@ -40,12 +40,7 @@ build_pr() {
 }
 
 build_main() {
-  if on_primary_job; then
-    mvn clean verify
-    bash <(curl -s https://codecov.io/bash)
-  else
-    mvn clean verify
-  fi
+mvn clean verify
 }
 
 build_branch() {
