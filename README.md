@@ -1,7 +1,10 @@
 # Spring Cookie
 *- Come to the dark side, we have cookies*
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Open Issues](https://img.shields.io/github/issues/innoq/spring-cookie.svg)](https://github.com/innoq/spring-cookie/issues) [![Build Status](https://travis-ci.org/innoq/spring-cookie.svg?branch=main)](https://travis-ci.org/innoq/spring-cookie)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.innoq/spring-cookie)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Open Issues](https://img.shields.io/github/issues/innoq/spring-cookie.svg)](https://github.com/innoq/spring-cookie/issues)
+[![Build Status](https://github.com/innoq/spring-cookie/actions/workflows/main.yml/badge.svg)](https://github.com/innoq/spring-cookie/actions/workflows/main.yml)
 
 Some components for
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)

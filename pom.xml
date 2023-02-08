@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2018-2021 innoQ Deutschland GmbH
+    Copyright 2018-2023 innoQ Deutschland GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@
   </organization>
 
   <ciManagement>
-    <url>https://travis-ci.org/innoq/spring-cookie</url>
-    <system>Travis CI</system>
+    <url>https://github.com/innoq/spring-cookie/actions</url>
+    <system>GitHub Actions</system>
   </ciManagement>
 
   <issueManagement>
