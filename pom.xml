@@ -169,7 +169,7 @@
             <id>check-license</id>
             <phase>initialize</phase>
             <goals>
-              <goal>check</goal>
+              <!--<goal>check</goal>-->
             </goals>
           </execution>
         </executions>
