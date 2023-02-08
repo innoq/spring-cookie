@@ -23,5 +23,5 @@ jobs:
       - name: Generate coverage report
         uses: codecov/codecov-action@v3
         with:
-          file: ./**/target/site/jacoco/jacoco.xml
+          file: ./target/site/jacoco/jacoco.xml
           name: codecov
