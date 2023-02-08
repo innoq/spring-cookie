@@ -42,6 +42,8 @@
     <url>https://innoq.com</url>
   </organization>
 
+  <inceptionYear>2018</inceptionYear>
+
   <ciManagement>
     <url>https://github.com/innoq/spring-cookie/actions</url>
     <system>GitHub Actions</system>
@@ -68,6 +70,7 @@
     <connection>scm:git:https://github.com/innoq/spring-cookie</connection>
     <developerConnection>scm:git:git@github.com:innoq/spring-cookie.git</developerConnection>
     <url>https://github.com/innoq/spring-cookie</url>
+    <tag>head</tag>
   </scm>
 
   <distributionManagement>
