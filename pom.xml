@@ -82,11 +82,9 @@
   </distributionManagement>
 
   <properties>
-    <java.version>17</java.version>
+    <maven.compiler.release>17</maven.compiler.release>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
     <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.outputTimestamp>2018-06-20T06:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -190,7 +188,7 @@
                   <enforcers>POM_SECTION_ORDER,DEPENDENCY_MANAGEMENT_ORDER,DEPENDENCY_ORDER,DEPENDENCY_CONFIGURATION,DEPENDENCY_ELEMENT,PLUGIN_MANAGEMENT_ORDER,PLUGIN_CONFIGURATION,PLUGIN_ELEMENT</enforcers>
                 </compound>
                 <requireJavaVersion>
-                  <version>${java.version}</version>
+                  <version>[17,18)</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
                   <version>[3.9,3.10)</version>
