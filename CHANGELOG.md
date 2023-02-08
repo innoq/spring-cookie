@@ -8,8 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### 🔨 Dependency Upgrades
-- Use Spring Boot 2.3.12.RELEASE as dependency baseline ([3e8a21f](https://github.com/innoq/spring-cookie/commit/3e8a21f40d3e0b2597c7be25f9a433c568577b6d))
-- Use Spring Boot 2.2.0.RELEASE as dependency baseline ([c0726a6](https://github.com/innoq/spring-cookie/commit/c0726a6d184d0bb0fdef4b9e1dc96b152763a5bc))
+- Use Spring Boot 3.0.2 as dependency baseline ([fb4449b](https://github.com/innoq/spring-cookie/commit/fb4449be4e49a5f77b655a4f19e009f1e145568c))
+
+### ❤️ Contributors
+
+We'd like to thank all the contributors who worked on this release!
+
+- [@cj-innoq][cj-innoq]
+- [@mvitz][mvitz]
+
 
 ## [0.1.0] - 2019-11-07
 
@@ -22,6 +29,15 @@ This is the initial release.
 - FlashMapSerializer ([ef71881](https://github.com/innoq/spring-cookie/commit/ef7188143bcd8e50d57557c416fb3456d6b64cd0))
 - Enforce signing and verifying of cookie value ([78e8280](https://github.com/innoq/spring-cookie/commit/78e8280bb6f1dcc20aa3843bceb75db36d5ac879))
 
+### ❤️ Contributors
+
+We'd like to thank all the contributors who worked on this release!
+
+- [@mvitz][mvitz]
+
 
 [Unreleased]: https://github.com/innoq/spring-cookie/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/innoq/spring-cookie/compare/6783509e8824b8b10e97cd80ee922c213c195340...v0.1.0
+
+[cj-innoq]: https://github.com/cj-innoq
+[mvitz]: https://github.com/mvitz
