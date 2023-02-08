@@ -82,6 +82,7 @@
   </distributionManagement>
 
   <properties>
+    <maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
     <maven.compiler.release>17</maven.compiler.release>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
     <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
