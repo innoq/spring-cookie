@@ -302,7 +302,7 @@
             <pushChanges>false</pushChanges>
             <releaseProfiles>release</releaseProfiles>
             <scmDevelopmentCommitComment>chore: Prepare for next development iteration</scmDevelopmentCommitComment>
-            <scmReleaseCommitComment>Release @{project.version}</scmReleaseCommitComment>
+            <scmReleaseCommitComment>Release @{releaseLabel}</scmReleaseCommitComment>
             <signTag>true</signTag>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <useReleaseProfile>false</useReleaseProfile>
