@@ -185,6 +185,8 @@
             </goals>
             <configuration>
               <rules>
+                <banDependencyManagementScope />
+                <banDuplicatePomDependencyVersions />
                 <dependencyConvergence />
                 <compound implementation="com.github.ferstl.maven.pomenforcers.CompoundPedanticEnforcer">
                   <enforcers>POM_SECTION_ORDER,DEPENDENCY_MANAGEMENT_ORDER,DEPENDENCY_ORDER,DEPENDENCY_CONFIGURATION,DEPENDENCY_ELEMENT,PLUGIN_MANAGEMENT_ORDER,PLUGIN_CONFIGURATION,PLUGIN_ELEMENT</enforcers>
@@ -197,6 +199,7 @@
                 </requireMavenVersion>
                 <requireNoRepositories />
                 <requirePluginVersions />
+                <requireProfileIdsExist />
                 <requireReleaseDeps />
                 <requireUpperBoundDeps />
               </rules>
