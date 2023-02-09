@@ -18,4 +18,5 @@ export MAVEN_OPTS
     --fail-at-end \
     --no-transfer-progress \
     --show-version \
+    --activate-profiles coverage \
     verify
