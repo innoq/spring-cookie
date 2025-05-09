@@ -65,5 +65,5 @@ We'd like to thank all the contributors who worked on this release!
 [0.1.0]: https://github.com/innoq/spring-cookie/compare/6783509e8824b8b10e97cd80ee922c213c195340...v0.1.0
 
 [cj-innoq]: https://github.com/cj-innoq
-[dependabot]: https://github.com/dependabot
+[dependabot]: https://github.com/apps/dependabot
 [mvitz]: https://github.com/mvitz
