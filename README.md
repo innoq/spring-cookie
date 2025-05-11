@@ -31,7 +31,7 @@ that use cookies instead of a HTTP session.
 
 ## Quick Start
 
-Download the jar through Maven:
+Download library through Maven:
 
 ```xml
 <dependency>
@@ -41,6 +41,74 @@ Download the jar through Maven:
 </dependency>
 ```
 
+### 1. Register as a Spring Bean
+
+To enable cookie-based Flash attributes, register the `CookieFlashMapManager` as a Spring `@Bean`. You can customize the codec and signing mechanism:
+
+```java
+@Configuration
+public class FlashAttributeStrategy {
+
+  @Bean
+  public CookieFlashMapManager cookieFlashMapManager() {
+    return new CookieFlashMapManager(
+      JacksonFlashMapListCodec.create(),             // JSON serialization
+      CookieValueSigner.hmacSha256(secretKeyBytes),  // Strong cookie signing
+      "flash"                                        // Name of the cookie
+    );
+  }
+}
+```
+
+Make sure to replace `secretKeyBytes` with a proper 64-byte key for HMAC-SHA-256 signing.
+
+### 2. Usage in your application
+
+This is a typical POST-to-GET redirect pattern: after a POST request performs an action, the user is redirected to a GET endpoint that displays a result message.
+
+```java
+@PostMapping("/send-message")
+public String updateChangeRequestStatus(final RedirectAttributes redirectAttributes) {
+    final String message = sendMessage()
+        ? "Okay, your message was submitted."
+        : "Sending your message failed.";
+
+    redirectAttributes.addFlashAttribute("message", message);
+    return "redirect:/messages";
+}
+
+@GetMapping("/messages")
+@ResponseBody
+public String showMessage(@ModelAttribute("message") String message) {
+    return message;
+}
+```
+
+The message is transferred via an HTTP cookie rather than session storage – making it suitable for stateless environments or APIs.
+
+## Security Considerations
+
+Spring Cookie stores serialized data directly in HTTP cookies. While this enables stateless architectures, it also introduces potential attack surfaces. To ensure safe use in production environments, follow these best practices:
+
+### 1. Use a Strong Secret Key
+
+The HMAC key should be **at least 256 bits (32 bytes)**, preferably **512 bits (64 bytes)** in length:
+
+```java
+KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+keyGen.init(512);
+byte[] key = keyGen.generateKey().getEncoded();
+```
+
+Store and manage this key securely, ideally via environment variables or a vault.
+
+### 2. Avoid Storing Sensitive Information
+
+Even signed cookies are visible to the client. Do not store personal data, tokens, or confidential information in flash attributes.
+
+OK: status messages like `"Saved successfully."`.
+
+*Avoid:* user IDs, emails, access rights, etc.
 
 ## Release History
 
