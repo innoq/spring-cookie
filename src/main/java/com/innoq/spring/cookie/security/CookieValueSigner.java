@@ -24,7 +24,7 @@ public interface CookieValueSigner {
     /**
      * @deprecated SHA-1 is no longer considered secure.
      *             Use SHA-256 or higher instead.
-     *             See: https://csrc.nist.gov/news/2022/deprecation-of-sha-1
+     *             See: <a href="https://www.nist.gov/news-events/news/2022/12/nist-retires-sha-1-cryptographic-algorithm">https://www.nist.gov/news-events/news/2022/12/nist-retires-sha-1-cryptographic-algorithm</a>
      */
     @Deprecated
     static CookieValueSigner hmacSha1(String secret) {
