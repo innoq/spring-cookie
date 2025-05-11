@@ -21,7 +21,23 @@ public interface CookieValueSigner {
 
     String sign(String payload);
 
+    /**
+     * @deprecated SHA-1 is no longer considered secure.
+     *             Use SHA-256 or higher instead.
+     *             See: https://csrc.nist.gov/news/2022/deprecation-of-sha-1
+     */
+    @Deprecated
     static CookieValueSigner hmacSha1(String secret) {
         return new HmacCookieValueSigner("HmacSHA1", secret.getBytes(UTF_8));
+    }
+
+    /**
+     * @param secret Secret key for signing, as a byte array.
+     *               The key should be uniformly distributed and generated using a cryptographically secure random number generator.
+     *               When using SHA-512, the recommended minimum length is 32 bytes;
+     *               the ideal length is 64 bytes (i.e., full hash output size).
+     */
+    static CookieValueSigner hmacSha512(byte[] secret) {
+        return new HmacCookieValueSigner("HmacSHA512", secret);
     }
 }
