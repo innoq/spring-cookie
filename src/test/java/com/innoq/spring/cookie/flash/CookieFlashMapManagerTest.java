@@ -32,9 +32,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
 class CookieFlashMapManagerTest {
+    byte[] secretKeyForTests = {
+        1, 2, 3, 4, 5, 6, 7, 8,
+        9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24,
+        25, 26, 27, 28, 29, 30, 31, 32,
+        33, 34, 35, 36, 37, 38, 39, 40,
+        41, 42, 43, 44, 45, 46, 47, 48,
+        49, 50, 51, 52, 53, 54, 55, 56,
+        57, 58, 59, 60, 61, 62, 63, 64
+    };
 
     CookieFlashMapManager sut = new CookieFlashMapManager(
-        JacksonFlashMapListCodec.create(), CookieValueSigner.hmacSha1("abc"));
+        JacksonFlashMapListCodec.create(), CookieValueSigner.hmacSha512(secretKeyForTests));
 
     @Test
     void retrieveFlashMaps_withNoCookiePresent_returnsNull() {
@@ -47,22 +57,38 @@ class CookieFlashMapManagerTest {
 
     @Test
     void retrieveFlashMaps_withValidCookie_returnsFlashMaps() {
-        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJmb28iOm51bGwsImJhciI6NDcxMSwiYmF6IjoibG9yZW0gaXBzdW0ifSwiZXhwaXJhdGlvblRpbWUiOjQ3MTEsInRhcmdldFJlcXVlc3RQYXJhbXMiOnsiZm9vIjpbXSwiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1dCg==--aa17ee8faf0bbe77a0949de6d5c593bd1e39718c";
+        FlashMap flashMapIn = new FlashMap();
+        flashMapIn.setTargetRequestPath("/foo");
+        flashMapIn.startExpirationPeriod(4711);
+        flashMapIn.put("foo", null);
+        flashMapIn.put("bar", 4711);
+        flashMapIn.put("baz", "lorem ipsum");
+        flashMapIn.addTargetRequestParam("bar", "foo");
+        flashMapIn.addTargetRequestParam("baz", "lorem");
+        flashMapIn.addTargetRequestParam("baz", "ipsum");
 
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
-        request.setCookies(new Cookie("flash", cookieValue));
+        MockHttpServletRequest firstRequest = new MockHttpServletRequest("GET", "/");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        sut.updateFlashMaps(asList(flashMapIn), firstRequest, response);
 
-        List<FlashMap> flashMaps = sut.retrieveFlashMaps(request);
+        assertThat(response.getCookies()).hasSize(1);
+
+        String cookieValue = response.getCookies()[0].getValue();
+
+        MockHttpServletRequest secondRequest = new MockHttpServletRequest("GET", "/");
+        secondRequest.setCookies(new Cookie("flash", cookieValue));
+
+        List<FlashMap> flashMaps = sut.retrieveFlashMaps(secondRequest);
 
         assertThat(flashMaps).hasSize(1);
 
-        FlashMap flashMap = flashMaps.get(0);
-        assertThat((Map<String, Object>) flashMap).containsOnly(
+        FlashMap flashMapOut = flashMaps.get(0);
+        assertThat((Map<String, Object>) flashMapOut).containsOnly(
             entry("foo", null), entry("bar", 4711), entry("baz", "lorem ipsum"));
-        assertThat(flashMap.getExpirationTime()).isEqualTo(4711);
-        assertThat(flashMap.getTargetRequestParams()).containsOnly(
+        assertThat(flashMapOut.getExpirationTime()).isEqualTo(flashMapIn.getExpirationTime());
+        assertThat(flashMapOut.getTargetRequestParams()).containsOnly(
             entry("bar", asList("foo")), entry("baz", asList("lorem", "ipsum")));
-        assertThat(flashMap.getTargetRequestPath()).isEqualTo("/foo");
+        assertThat(flashMapOut.getTargetRequestPath()).isEqualTo("/foo");
     }
 
     @Test
@@ -83,7 +109,7 @@ class CookieFlashMapManagerTest {
             .hasFieldOrPropertyWithValue("httpOnly", true);
 
         String cookieValue = response.getCookie("flash").getValue();
-        assertThat(cookieValue).isEqualTo("W3siYXR0cmlidXRlcyI6e30sImV4cGlyYXRpb25UaW1lIjotMSwidGFyZ2V0UmVxdWVzdFBhcmFtcyI6e30sInRhcmdldFJlcXVlc3RQYXRoIjpudWxsfV0=--daa79b20816b076ceb9f628bef9a82792fe9b5fa");
+        assertThat(cookieValue).isEqualTo("W3siYXR0cmlidXRlcyI6e30sImV4cGlyYXRpb25UaW1lIjotMSwidGFyZ2V0UmVxdWVzdFBhcmFtcyI6e30sInRhcmdldFJlcXVlc3RQYXRoIjpudWxsfV0=--8dc134130c9f450deeef4499ace9dc950ecf342edabf77e7a8b002592413d8448dcb780d2b5f76d1a3b18152196a107654aebc0d2c7b5ef329e294b215bd0d27");
     }
 
     @Test
