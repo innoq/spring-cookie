@@ -53,7 +53,7 @@ public class FlashAttributeStrategy {
   public CookieFlashMapManager cookieFlashMapManager() {
     return new CookieFlashMapManager(
       JacksonFlashMapListCodec.create(),             // JSON serialization
-      CookieValueSigner.hmacSha256(secretKeyBytes),  // Strong cookie signing
+      CookieValueSigner.hmacSha512(secretKeyBytes),  // Strong cookie signing
       "flash"                                        // Name of the cookie
     );
   }
