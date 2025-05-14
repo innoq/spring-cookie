@@ -57,23 +57,9 @@ class CookieFlashMapManagerTest {
 
     @Test
     void retrieveFlashMaps_withValidCookie_returnsFlashMaps() {
-        FlashMap flashMapIn = new FlashMap();
-        flashMapIn.setTargetRequestPath("/foo");
-        flashMapIn.startExpirationPeriod(4711);
-        flashMapIn.put("foo", null);
-        flashMapIn.put("bar", 4711);
-        flashMapIn.put("baz", "lorem ipsum");
-        flashMapIn.addTargetRequestParam("bar", "foo");
-        flashMapIn.addTargetRequestParam("baz", "lorem");
-        flashMapIn.addTargetRequestParam("baz", "ipsum");
-
-        MockHttpServletRequest firstRequest = new MockHttpServletRequest("GET", "/");
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        sut.updateFlashMaps(asList(flashMapIn), firstRequest, response);
-
-        assertThat(response.getCookies()).hasSize(1);
-
-        String cookieValue = response.getCookies()[0].getValue();
+        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJiYXIiOjQ3MTEsImJheiI6ImxvcmVtIGlwc3VtIiwiZm9vIjpudWxsfSwiZXhwaXJhdGlvblRpbWUiOjE3NDcyNjMzODU0NjYsInRhcmdl" +
+            "dFJlcXVlc3RQYXJhbXMiOnsiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1d--82d4da6585ee8acd9f503fa9cdffafd" +
+            "c6625791614883b166209aaef5d36d470492d8dc52ad785dcb9dbe7d9f3bab6fcfd0f306bf833a9d9cdf36738af945bf4";
 
         MockHttpServletRequest secondRequest = new MockHttpServletRequest("GET", "/");
         secondRequest.setCookies(new Cookie("flash", cookieValue));
@@ -85,7 +71,7 @@ class CookieFlashMapManagerTest {
         FlashMap flashMapOut = flashMaps.get(0);
         assertThat((Map<String, Object>) flashMapOut).containsOnly(
             entry("foo", null), entry("bar", 4711), entry("baz", "lorem ipsum"));
-        assertThat(flashMapOut.getExpirationTime()).isEqualTo(flashMapIn.getExpirationTime());
+        assertThat(flashMapOut.getExpirationTime()).isEqualTo(1747263385466L);
         assertThat(flashMapOut.getTargetRequestParams()).containsOnly(
             entry("bar", asList("foo")), entry("baz", asList("lorem", "ipsum")));
         assertThat(flashMapOut.getTargetRequestPath()).isEqualTo("/foo");
