@@ -61,10 +61,10 @@ class CookieFlashMapManagerTest {
             "dFJlcXVlc3RQYXJhbXMiOnsiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1d--82d4da6585ee8acd9f503fa9cdffafd" +
             "c6625791614883b166209aaef5d36d470492d8dc52ad785dcb9dbe7d9f3bab6fcfd0f306bf833a9d9cdf36738af945bf4";
 
-        MockHttpServletRequest secondRequest = new MockHttpServletRequest("GET", "/");
-        secondRequest.setCookies(new Cookie("flash", cookieValue));
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        request.setCookies(new Cookie("flash", cookieValue));
 
-        List<FlashMap> flashMaps = sut.retrieveFlashMaps(secondRequest);
+        List<FlashMap> flashMaps = sut.retrieveFlashMaps(request);
 
         assertThat(flashMaps).hasSize(1);
 
