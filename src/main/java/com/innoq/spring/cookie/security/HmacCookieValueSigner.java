@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 innoQ Deutschland GmbH
+ * Copyright 2018-2025 innoQ Deutschland GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,22 @@ import java.security.NoSuchAlgorithmException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-final class HmacCookieValueSigner implements CookieValueSigner {
+/**
+ * <a href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> based
+ * {@link CookieValueSigner}.
+ */
+public final class HmacCookieValueSigner implements CookieValueSigner {
 
     private final String algorithm;
     private final byte[] secret;
 
-    HmacCookieValueSigner(String algorithm, byte[] secret) {
+    /**
+     * Constructs a new instance with the given algorithm and secret.
+     *
+     * @param algorithm Signing algorithm that should be used (e.g. <code>HmacSHA512</code>).
+     * @param secret    Secret key for signing, as a byte array.
+     */
+    public HmacCookieValueSigner(String algorithm, byte[] secret) {
         this.algorithm = algorithm;
         this.secret = secret;
     }
@@ -36,7 +46,7 @@ final class HmacCookieValueSigner implements CookieValueSigner {
     @Override
     public String sign(String payload) {
         try {
-            final byte[] data  = payload.getBytes(UTF_8);
+            final byte[] data = payload.getBytes(UTF_8);
             final Key key = new SecretKeySpec(secret, algorithm);
 
             final Mac mac = Mac.getInstance(algorithm);
@@ -59,6 +69,6 @@ final class HmacCookieValueSigner implements CookieValueSigner {
     }
 
     private static String byteToHex(byte b) {
-        return Integer.toString((b &  0xff) + 0x100, 16).substring(1);
+        return Integer.toString((b & 0xff) + 0x100, 16).substring(1);
     }
 }
