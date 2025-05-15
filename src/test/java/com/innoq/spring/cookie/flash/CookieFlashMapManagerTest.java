@@ -57,9 +57,7 @@ class CookieFlashMapManagerTest {
 
     @Test
     void retrieveFlashMaps_withValidCookie_returnsFlashMaps() {
-        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJiYXIiOjQ3MTEsImJheiI6ImxvcmVtIGlwc3VtIiwiZm9vIjpudWxsfSwiZXhwaXJhdGlvblRpbWUiOjE3NDcyNjMzODU0NjYsInRhcmdl" +
-            "dFJlcXVlc3RQYXJhbXMiOnsiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1d--82d4da6585ee8acd9f503fa9cdffafd" +
-            "c6625791614883b166209aaef5d36d470492d8dc52ad785dcb9dbe7d9f3bab6fcfd0f306bf833a9d9cdf36738af945bf4";
+        String cookieValue = "W3siYXR0cmlidXRlcyI6eyJiYXIiOjQ3MTEsImJheiI6ImxvcmVtIGlwc3VtIiwiZm9vIjpudWxsfSwiZXhwaXJhdGlvblRpbWUiOjE3NDcyNjMzODU0NjYsInRhcmdldFJlcXVlc3RQYXJhbXMiOnsiYmFyIjpbImZvbyJdLCJiYXoiOlsibG9yZW0iLCJpcHN1bSJdfSwidGFyZ2V0UmVxdWVzdFBhdGgiOiIvZm9vIn1d--82d4da6585ee8acd9f503fa9cdffafdc6625791614883b166209aaef5d36d470492d8dc52ad785dcb9dbe7d9f3bab6fcfd0f306bf833a9d9cdf36738af945bf4";
 
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
         request.setCookies(new Cookie("flash", cookieValue));
@@ -68,13 +66,13 @@ class CookieFlashMapManagerTest {
 
         assertThat(flashMaps).hasSize(1);
 
-        FlashMap flashMapOut = flashMaps.get(0);
-        assertThat((Map<String, Object>) flashMapOut).containsOnly(
+        FlashMap flashMap = flashMaps.get(0);
+        assertThat((Map<String, Object>) flashMap).containsOnly(
             entry("foo", null), entry("bar", 4711), entry("baz", "lorem ipsum"));
-        assertThat(flashMapOut.getExpirationTime()).isEqualTo(1747263385466L);
-        assertThat(flashMapOut.getTargetRequestParams()).containsOnly(
+        assertThat(flashMap.getExpirationTime()).isEqualTo(1747263385466L);
+        assertThat(flashMap.getTargetRequestParams()).containsOnly(
             entry("bar", asList("foo")), entry("baz", asList("lorem", "ipsum")));
-        assertThat(flashMapOut.getTargetRequestPath()).isEqualTo("/foo");
+        assertThat(flashMap.getTargetRequestPath()).isEqualTo("/foo");
     }
 
     @Test
