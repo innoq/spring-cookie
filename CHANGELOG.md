@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### ⭐️ New Features
+- Allow public access to `HmacCookieValueSigner` ([edb346a](https://github.com/innoq/spring-cookie/commit/edb346a58a46a7f2479c9c3de7120f82b2b6e4be))
+- Dedicated class `CookieValueSigners` for factory methods ([0c8fd83](https://github.com/innoq/spring-cookie/commit/0c8fd830b620fd01efa86d07cebc24a26afc1052))
+- Factory method for HMAC SHA-512 signing ([cd3686a](https://github.com/innoq/spring-cookie/commit/cd3686a3049117252031de4a17092ad1c43df710))
+
+### 📔 Documentation
+- Add documentation for integrating into Spring Boot ([770ae5b](https://github.com/innoq/spring-cookie/commit/770ae5b2bc2b477b9def32c8cb309241ec956b06))
+
+### ❤️ Contributors
+
+We'd like to thank all the contributors who worked on this release!
+
+- [@mvitz][mvitz]
+- [@RedXi][RedXi]
+
 
 ## [1.1.0] - 2025-05-09
 
@@ -67,3 +82,4 @@ We'd like to thank all the contributors who worked on this release!
 [cj-innoq]: https://github.com/cj-innoq
 [dependabot]: https://github.com/apps/dependabot
 [mvitz]: https://github.com/mvitz
+[RedXi]: https://github.com/RedXi
