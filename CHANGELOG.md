@@ -80,7 +80,8 @@ We'd like to thank all the contributors who worked on this release!
 - [@mvitz][mvitz]
 
 
-[Unreleased]: https://github.com/innoq/spring-cookie/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/innoq/spring-cookie/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/innoq/spring-cookie/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/innoq/spring-cookie/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/innoq/spring-cookie/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/innoq/spring-cookie/compare/6783509e8824b8b10e97cd80ee922c213c195340...v0.1.0
