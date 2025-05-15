@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.2.0] - 2025-05-15
+
+This release simplifies using your own signing algorithm and improves
+documentation.
+
 ### ⭐️ New Features
 - Allow public access to `HmacCookieValueSigner` ([edb346a](https://github.com/innoq/spring-cookie/commit/edb346a58a46a7f2479c9c3de7120f82b2b6e4be))
 - Dedicated class `CookieValueSigners` for factory methods ([0c8fd83](https://github.com/innoq/spring-cookie/commit/0c8fd830b620fd01efa86d07cebc24a26afc1052))
