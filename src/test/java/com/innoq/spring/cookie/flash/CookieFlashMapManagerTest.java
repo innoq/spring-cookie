@@ -16,13 +16,13 @@
 package com.innoq.spring.cookie.flash;
 
 import com.innoq.spring.cookie.flash.codec.jackson.JacksonFlashMapListCodec;
-import com.innoq.spring.cookie.security.CookieValueSigner;
+import com.innoq.spring.cookie.security.CookieValueSigners;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.FlashMap;
 
-import jakarta.servlet.http.Cookie;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +44,7 @@ class CookieFlashMapManagerTest {
     };
 
     CookieFlashMapManager sut = new CookieFlashMapManager(
-        JacksonFlashMapListCodec.create(), CookieValueSigner.hmacSha512(secretKeyForTests));
+        JacksonFlashMapListCodec.create(), CookieValueSigners.hmacSha512(secretKeyForTests));
 
     @Test
     void retrieveFlashMaps_withNoCookiePresent_returnsNull() {
