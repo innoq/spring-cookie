@@ -1,7 +1,7 @@
 # Spring Cookie
 *- Come to the dark side, we have cookies*
 
-[![Maven Central](https://maven-badges.sml.io/sonatype-central/com.innoq/spring-cookie/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.innoq/spring-cookie)
+[![Maven Central](https://maven-badges.sml.io/sonatype-central/com.innoq/spring-cookie/badge.svg?version=1.2.0)](https://maven-badges.sml.io/sonatype-central/com.innoq/spring-cookie)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Open Issues](https://img.shields.io/github/issues/innoq/spring-cookie.svg)](https://github.com/innoq/spring-cookie/issues)
 [![Build Status](https://github.com/innoq/spring-cookie/actions/workflows/main.yml/badge.svg)](https://github.com/innoq/spring-cookie/actions/workflows/main.yml)
