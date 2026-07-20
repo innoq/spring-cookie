@@ -15,9 +15,10 @@
  */
 package com.innoq.spring.cookie.flash.codec.jackson;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import com.innoq.spring.cookie.flash.codec.jackson.FlashMapDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.FlashMap;
@@ -31,9 +32,9 @@ import static org.assertj.core.api.Assertions.entry;
 
 class FlashMapDeserializerTest {
 
-    ObjectMapper sut = new ObjectMapper()
-        .registerModule(
-            new SimpleModule().addDeserializer(FlashMap.class, new FlashMapDeserializer()));
+    ObjectMapper sut = JsonMapper.builder()
+        .addModule(new SimpleModule().addDeserializer(FlashMap.class, new FlashMapDeserializer()))
+        .build();
 
     @Test
     void empty_flash_map_is_deserialized() throws Exception {
