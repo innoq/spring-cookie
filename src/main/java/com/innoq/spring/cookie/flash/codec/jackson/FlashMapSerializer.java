@@ -15,12 +15,12 @@
  */
 package com.innoq.spring.cookie.flash.codec.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 import org.springframework.web.servlet.FlashMap;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 final class FlashMapSerializer extends StdSerializer<FlashMap> {
@@ -30,13 +30,13 @@ final class FlashMapSerializer extends StdSerializer<FlashMap> {
     }
 
     @Override
-    public void serialize(FlashMap value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException {
+    public void serialize(FlashMap value, JsonGenerator gen, SerializationContext serializers)
+            throws JacksonException {
         gen.writeStartObject();
-        gen.writeObjectField("attributes", new HashMap<>(value));
-        gen.writeNumberField("expirationTime", value.getExpirationTime());
-        gen.writeObjectField("targetRequestParams", value.getTargetRequestParams());
-        gen.writeStringField("targetRequestPath", value.getTargetRequestPath());
+        gen.writePOJOProperty("attributes", new HashMap<>(value));
+        gen.writeNumberProperty("expirationTime", value.getExpirationTime());
+        gen.writePOJOProperty("targetRequestParams", value.getTargetRequestParams());
+        gen.writeStringProperty("targetRequestPath", value.getTargetRequestPath());
         gen.writeEndObject();
     }
 }
