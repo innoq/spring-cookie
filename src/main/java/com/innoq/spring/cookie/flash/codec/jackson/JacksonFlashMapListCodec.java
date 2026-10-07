@@ -15,21 +15,21 @@
  */
 package com.innoq.spring.cookie.flash.codec.jackson;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import com.innoq.spring.cookie.flash.FlashMapListCodec;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FlashMap;
 
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
 public final class JacksonFlashMapListCodec implements FlashMapListCodec {
 
-    private static TypeReference<List<FlashMap>> FLASH_MAPS_TYPE_REFERENCE =
+    private static final TypeReference<List<FlashMap>> FLASH_MAPS_TYPE_REFERENCE =
         new TypeReference<List<FlashMap>>() {};
 
     private final ObjectMapper mapper;
@@ -54,7 +54,7 @@ public final class JacksonFlashMapListCodec implements FlashMapListCodec {
     private byte[] toJson(List<FlashMap> flashMaps) {
         try {
             return mapper.writeValueAsBytes(flashMaps);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             // TODO: use own exception?
             throw new IllegalArgumentException("Unable to convert flash maps to JSON", e);
         }
@@ -63,7 +63,7 @@ public final class JacksonFlashMapListCodec implements FlashMapListCodec {
     private List<FlashMap> fromJson(byte[] json) {
         try {
             return mapper.readValue(json, FLASH_MAPS_TYPE_REFERENCE);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             // TODO: use own exception?
             throw new IllegalArgumentException("Unable to convert JSON to flash maps", e);
         }
@@ -82,8 +82,7 @@ public final class JacksonFlashMapListCodec implements FlashMapListCodec {
         module.addSerializer(FlashMap.class, new FlashMapSerializer());
         module.addDeserializer(FlashMap.class, new FlashMapDeserializer());
 
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(module);
+        final ObjectMapper mapper = JsonMapper.builder().addModule(module).build();
 
         return create(mapper);
     }

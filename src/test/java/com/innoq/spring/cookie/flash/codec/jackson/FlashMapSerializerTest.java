@@ -15,8 +15,9 @@
  */
 package com.innoq.spring.cookie.flash.codec.jackson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import com.innoq.spring.cookie.flash.codec.jackson.FlashMapSerializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.FlashMap;
@@ -25,9 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FlashMapSerializerTest {
 
-    ObjectMapper sut = new ObjectMapper()
-        .registerModule(
-            new SimpleModule().addSerializer(new FlashMapSerializer()));
+    ObjectMapper sut = JsonMapper.builder()
+        .addModule(new SimpleModule().addSerializer(new FlashMapSerializer()))
+        .build();
 
     @Test
     void empty_flash_map_is_serialized() throws Exception {
