@@ -15,21 +15,25 @@
  */
 package com.innoq.spring.cookie.flash.codec.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.web.servlet.FlashMap;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 final class FlashMapDeserializer extends StdDeserializer<FlashMap> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = JsonMapper.builder()
+        .disable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
+        .build();
 
     public FlashMapDeserializer() {
         super(FlashMap.class);
@@ -37,7 +41,7 @@ final class FlashMapDeserializer extends StdDeserializer<FlashMap> {
 
     @Override
     public FlashMap deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException {
+            throws JacksonException {
         final JsonNode root = objectMapper.readTree(p);
         final FlashMap flashMap = new FlashMap();
 
@@ -88,11 +92,11 @@ final class FlashMapDeserializer extends StdDeserializer<FlashMap> {
     }
 
     private void handleTargetRequestPath(FlashMap flashMap, JsonNode node) {
-        if (node == null || !node.isTextual()) {
+        if (node == null || !node.isString()) {
             return;
         }
 
-        final String targetRequestPath = node.asText();
+        final String targetRequestPath = node.stringValue();
         flashMap.setTargetRequestPath(targetRequestPath);
     }
 }
